@@ -128,87 +128,8 @@ async function processData(info, fecha, suggest) {
         // Handle this case according to your application's requirements
     }
 }
-/* function filterData(info, fecha) {
 
-    console.log("Datos almacenado son: ",info)
-    fecha === "7"? console.log("soy igual"): console.log("no soy igual")
-    const filteredData = []
-    if (fecha === "7") {
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0); // Establece las horas, minutos, segundos y milisegundos a cero en formato UTC
 
-    const nextWeek = new Date(today);
-    nextWeek.setDate(today.getDate() + 7);
-
-    info.forEach(element => {
-        // Parsea la fecha en formato ISO 8601 a un objeto de fecha
-        const endDate = new Date(element.endDate);
-
-        // Ajusta la fecha al mismo huso horario que today y nextWeek
-        endDate.setUTCHours(0, 0, 0, 0);
-
-        if (endDate >= today && endDate <= nextWeek) {
-            console.log("estoy aqui");
-            filteredData.push(element);
-        }
-    });
-}else {
-        info.forEach(element => {
-
-            if (element.endDate.split("T")[0] === fecha) {
-                filteredData.push(element)
-            }
-        });
-    }
-    
-    console.log("Datos filtrados", filteredData)
-    crearBusqueda(filteredData)
-    
-}
-function suggestData(info, fecha, suggest) {
-
-   
-    const filteredData = []
-    if (fecha === "7") {
-        const today = new Date();
-        today.setUTCHours(0, 0, 0, 0); // Establece las horas, minutos, segundos y milisegundos a cero en formato UTC
-    
-        const nextWeek = new Date(today);
-        nextWeek.setDate(today.getDate() + 7);
-    
-        info.forEach(element => {
-            // Parsea la fecha en formato ISO 8601 a un objeto de fecha
-            const endDate = new Date(element.endDate);
-    
-            // Ajusta la fecha al mismo huso horario que today y nextWeek
-            endDate.setUTCHours(0, 0, 0, 0);
-    
-            if (endDate >= today && endDate <= nextWeek) {
-                console.log("estoy aqui");
-                filteredData.push(element);
-            }
-        });
-    } else {
-        info.forEach(element => {
-
-            if (element.endDate.split("T")[0] === fecha) {
-                filteredData.push(element)
-            }
-        });
-    }
-    if (suggest && filteredData.length > 0) {
-
-        const randomIndex = Math.floor(Math.random() * filteredData.length);
-        const suggestedData = filteredData[randomIndex];
-        console.log("evento sugerido", suggestedData);
-        crearSugerencia(suggestedData)
-        
-        
-
-    }  {return "no tenemos sugerencias para mostrar"}
-   
-    
-} */
 function almacenarDatos(nombrePueblo, fecha) {
       
     // Recuperar los datos del localStorage
@@ -291,12 +212,24 @@ function crearSugerencia(sugerencia) {
     const nuevoH4 = document.createElement("h4");
     const nuevoH4_1 = document.createElement("h4");
     const nuevoH4_2 = document.createElement("h4");
+    const botonInfo = document.createElement("button");
+    const botonCompra = document.createElement("button");
 
     nuevoH3.innerText = `Lugar: ${sugerencia.establishmentEs} Localidad: ${sugerencia.municipalityEs}`;
     nuevoH4.innerText = `Fecha ${sugerencia.startDate.split("T")[0]}`;
     nuevoH4_1.innerText = `Hora comienzo: ${sugerencia.openingHoursEs}`;
     nuevoH4_2.innerText = `Precio: ${sugerencia.priceEs}`;
     nuevoH1.innerText = sugerencia.nameEs;
+    botonInfo.innerText = "+ Info";
+    botonInfo.addEventListener('click', function (event) {
+        event.preventDefault();
+        crearInfo(sugerencia);
+    });
+    botonCompra.innerText = "Comprar";
+    botonInfo.addEventListener('click', function (event) {
+        event.preventDefault();
+        crearInfo(sugerencia);
+    });
     //limpiamos la anterior busqueda
     sugerenciaDelDia.innerHTML = "";
 
@@ -305,6 +238,9 @@ function crearSugerencia(sugerencia) {
     sugerenciaDelDia.appendChild(nuevoH4);
     sugerenciaDelDia.appendChild(nuevoH4_1);
     sugerenciaDelDia.appendChild(nuevoH4_2);
+    sugerenciaDelDia.appendChild(botonInfo);
+    sugerenciaDelDia.appendChild(botonCompra);
+
     const miDiv = document.getElementById('description');
     miDiv.innerHTML = sugerencia.descriptionEs;
 
@@ -330,12 +266,16 @@ function crearBusqueda(datosFiltrados) {
 
     datosFiltrados.forEach(dato => {
         // Crear elementos para cada iteración
+        const article = document.createElement("article");
+        article.classList.add("tipo-articulo");
         const nuevoH1 = document.createElement("h1");
         const nuevaImagen = document.createElement("img");
         const nuevoH3 = document.createElement("h3");
         const nuevoH4 = document.createElement("h4");
         const nuevoH4_1 = document.createElement("h4");
         const nuevoH4_2 = document.createElement("h4");
+        const botonInfo = document.createElement("button");
+        const botonCompra = document.createElement("button");
 
         
        // Establecer el contenido de los elementos si no son undefined
@@ -360,6 +300,10 @@ function crearBusqueda(datosFiltrados) {
            nuevaImagen.classList.add("tipo-imagen");
        }
 
+        botonInfo.innerText = "+ Info";
+        botonCompra.innerText = "Comprar";
+
+
         // Adjuntar elementos al contenedor en cada iteración
         contenedorElementos.appendChild(nuevoH1);
         contenedorElementos.appendChild(nuevoH3);
@@ -367,9 +311,11 @@ function crearBusqueda(datosFiltrados) {
         contenedorElementos.appendChild(nuevoH4_1);
         contenedorElementos.appendChild(nuevoH4_2);
         contenedorElementos.appendChild(nuevaImagen);
-        
-      
+        contenedorElementos.appendChild(botonInfo);
+        contenedorElementos.appendChild(botonCompra);      
     });
+
+    contenedorElementos.appendChild(article);
 }
 //obtenerPueblo()
 const suggest = false;
