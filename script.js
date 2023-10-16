@@ -1,0 +1,379 @@
+//getdatofromapi
+
+function obtenerPueblo() {
+    const puebloForm = document.getElementById('puebloForm');
+    const puebloInput = document.getElementById('puebloInput');
+    //comento la parte del precio hasta revisarlo bien
+    //const precioMaximoInput = document.getElementById('precioMaximoInput');
+    const fechaInput = document.getElementById('fechaInput');
+    const boton7Dias = document.getElementById('boton7dias');
+    const cercaMi = document.getElementById('cercaDeMi')
+    puebloForm.addEventListener('submit', function (event) {
+        // Prevenimos que el formulario se envíe de forma convencional
+        event.preventDefault();
+        // Obtenemos el valor de los inputs
+        const nombrePueblo = puebloInput.value;
+        //const precioMaximo = precioMaximoInput.value;
+        const fecha = fechaInput.value;
+        // Mostramos un mensaje con el nombre del pueblo almacenado
+        alert('Nombre del pueblo almacenado: ' + nombrePueblo);
+        // Llamamos a la función getMunicipalityFromApi y pasamos nombrePueblo como argumento
+        //getMunicipalityFromApi(nombrePueblo, precioMaximo, fecha);
+        getMunicipalityFromApi(nombrePueblo, fecha, suggest);
+        //Llamamos a la funcion almacenar datos para guardar en localstorage información de la busqueda
+        almacenarDatos(nombrePueblo, fecha)
+    });
+    boton7Dias.addEventListener('click', function (event) {
+        event.preventDefault();
+        const fecha = "7"
+        if (puebloInput.value.trim() === '') {
+            alert('Por favor, ingrese un nombre de pueblo.');
+            return; 
+        }
+        const nombrePueblo = puebloInput.value;
+        getMunicipalityFromApi(nombrePueblo, fecha, suggest);
+        almacenarDatos(nombrePueblo, fecha)
+    });
+    cercaMi.addEventListener('click', function (event) {
+        event.preventDefault();
+        const fecha = "7"
+        getIp()
+    });
+    //incluyo boton de borrado hasta saber que hacer con el borrado
+    borrarLocalStorage.addEventListener('click', function (event) {
+        event.preventDefault();
+       borradolocalStorage();
+    });
+}
+
+async function getMunicipalityFromApi(pueblo, fecha, suggest) {
+    try {
+
+        const response = await fetch("https://api.euskadi.eus/culture/events/v1.0/municipalities?_elements=100000&_page=1")
+        if (!response.ok) {
+            throw new Error('La solicitud ha fallado');
+        }
+        const data = await response.json()
+        const municipios = data.items
+        let puebloEncontrado = false;
+        municipios.forEach(municipio => {
+            //con este if tambien nos verifica si parte del valor introducido coincide con algun municipio (es para prevenir errores en nombres largos tipo vitoria-gazteiz)
+            if (!puebloEncontrado && municipio.nameEs.toLowerCase().includes(pueblo.toLowerCase())) {
+                console.log(municipio.municipalityId);
+                getDataFromApi(municipio.municipalityId, fecha, suggest)
+                puebloEncontrado = true;
+            }
+        });
+        if (!puebloEncontrado) {
+            alert("El nombre del pueblo no existe");
+            return;
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function getDataFromApi(puebloid, fecha, suggest) {
+    try {
+
+        const respuesta = await fetch(`https://api.euskadi.eus/culture/events/v1.0/events/upcoming?_elements=1000&_page=1&municipalityNoraCode=${puebloid}&type=1`)
+        if (!respuesta.ok) {
+            throw new Error('La solicitud ha fallado');
+        }
+        const data = await respuesta.json()
+        const info = await data.items
+
+        processData(info, fecha, suggest)
+
+        
+    } catch (error) {
+        console.error(error)
+    }
+}
+async function processData(info, fecha, suggest) {
+    const filteredData = [];
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+
+    const nextWeek = new Date(today);
+    nextWeek.setDate(today.getDate() + 7);
+
+    info.forEach(element => {
+        const endDate = new Date(element.endDate);
+        endDate.setUTCHours(0, 0, 0, 0);
+
+        if (suggest) {
+            if (endDate >= today && endDate <= nextWeek) {
+                filteredData.push(element);
+            }
+        } else {
+            if (fecha === "7" && endDate >= today && endDate <= nextWeek) {
+                filteredData.push(element);
+            } else if (element.endDate.split("T")[0] === fecha) {
+                filteredData.push(element);
+            }
+        }
+    });
+
+    if (suggest && filteredData.length > 0) {
+        const randomIndex = Math.floor(Math.random() * filteredData.length);
+        const suggestedData = filteredData[randomIndex];
+        console.log("Evento sugerido:", suggestedData);
+        crearSugerencia(suggestedData);
+    } else if (filteredData.length > 0) {
+        console.log("Datos filtrados:", filteredData);
+        crearBusqueda(filteredData);
+    } else {
+        console.log("No hay eventos disponibles para mostrar.");
+        // Handle this case according to your application's requirements
+    }
+}
+/* function filterData(info, fecha) {
+
+    console.log("Datos almacenado son: ",info)
+    fecha === "7"? console.log("soy igual"): console.log("no soy igual")
+    const filteredData = []
+    if (fecha === "7") {
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0); // Establece las horas, minutos, segundos y milisegundos a cero en formato UTC
+
+    const nextWeek = new Date(today);
+    nextWeek.setDate(today.getDate() + 7);
+
+    info.forEach(element => {
+        // Parsea la fecha en formato ISO 8601 a un objeto de fecha
+        const endDate = new Date(element.endDate);
+
+        // Ajusta la fecha al mismo huso horario que today y nextWeek
+        endDate.setUTCHours(0, 0, 0, 0);
+
+        if (endDate >= today && endDate <= nextWeek) {
+            console.log("estoy aqui");
+            filteredData.push(element);
+        }
+    });
+}else {
+        info.forEach(element => {
+
+            if (element.endDate.split("T")[0] === fecha) {
+                filteredData.push(element)
+            }
+        });
+    }
+    
+    console.log("Datos filtrados", filteredData)
+    crearBusqueda(filteredData)
+    
+}
+function suggestData(info, fecha, suggest) {
+
+   
+    const filteredData = []
+    if (fecha === "7") {
+        const today = new Date();
+        today.setUTCHours(0, 0, 0, 0); // Establece las horas, minutos, segundos y milisegundos a cero en formato UTC
+    
+        const nextWeek = new Date(today);
+        nextWeek.setDate(today.getDate() + 7);
+    
+        info.forEach(element => {
+            // Parsea la fecha en formato ISO 8601 a un objeto de fecha
+            const endDate = new Date(element.endDate);
+    
+            // Ajusta la fecha al mismo huso horario que today y nextWeek
+            endDate.setUTCHours(0, 0, 0, 0);
+    
+            if (endDate >= today && endDate <= nextWeek) {
+                console.log("estoy aqui");
+                filteredData.push(element);
+            }
+        });
+    } else {
+        info.forEach(element => {
+
+            if (element.endDate.split("T")[0] === fecha) {
+                filteredData.push(element)
+            }
+        });
+    }
+    if (suggest && filteredData.length > 0) {
+
+        const randomIndex = Math.floor(Math.random() * filteredData.length);
+        const suggestedData = filteredData[randomIndex];
+        console.log("evento sugerido", suggestedData);
+        crearSugerencia(suggestedData)
+        
+        
+
+    }  {return "no tenemos sugerencias para mostrar"}
+   
+    
+} */
+function almacenarDatos(nombrePueblo, fecha) {
+      
+    // Recuperar los datos del localStorage
+    let nombres = JSON.parse(localStorage.getItem('nombres')) || [];
+    let fechas = JSON.parse(localStorage.getItem('fechas')) || [];
+    nombres.push(nombrePueblo);
+    fechas.push(fecha);
+    localStorage.setItem('nombres', JSON.stringify(nombres));
+    localStorage.setItem('fechas', JSON.stringify(fechas));
+
+    //no se como hacer para borrar los datos de localstorage al de un dia o dos dias xej
+}
+function borradolocalStorage() {
+    return localStorage.clear();
+}
+
+function getDataFromStorage(suggest) {
+    const nombres = JSON.parse(localStorage.getItem('nombres'));
+    const fechas = JSON.parse(localStorage.getItem('fechas'));
+
+
+    console.log(nombres);
+    console.log(fechas);
+    if (nombres === null || fechas === null) {
+        return;
+    } else {
+
+        // Inicializar el objeto conteo para contar la frecuencia de los nombres
+        const conteoNombres = {};
+        const nombreMasRepetido = nombres.reduce((max, elemento) => {
+            conteoNombres[elemento] = (conteoNombres[elemento] || 0) + 1;
+            return conteoNombres[elemento] > conteoNombres[max] ? elemento : max;
+        }, nombres[0]);
+
+        // Inicializar el objeto conteo para contar la frecuencia de las fechas
+        const conteoFechas = {};
+        const fechaMasRepetida = fechas.reduce((max, elemento) => {
+            conteoFechas[elemento] = (conteoFechas[elemento] || 0) + 1;
+            return conteoFechas[elemento] > conteoFechas[max] ? elemento : max;
+        }, fechas[0]);
+
+        // Llama a la función getMunicipalityFromApi con los nombres y fechas más repetidos
+        getMunicipalityFromApi(nombreMasRepetido, fechaMasRepetida, suggest = true);
+
+    }
+
+
+}
+async function getIp() {
+
+    try {
+        const respuesta = await fetch('http://ip-api.com/json');
+        const datos = await respuesta.json();
+        console.log('Datos brutos de la IP:', datos);  // Agrega un registro para ver los datos brutos
+
+        const ciudad = datos.city;
+        console.log('Ciudad:', ciudad);  // Agrega un registro para ver la ciudad
+
+        if (datos.status === 'success') {
+            const fecha = "7";
+            alert('Estás en: ' + ciudad);
+            almacenarDatos(ciudad, fecha);
+            getMunicipalityFromApi(ciudad, fecha, suggest)
+
+        } else {
+            console.error('Error al obtener la IP: ', datos.message);
+        }
+    } catch (error) {
+        console.error('Error al obtener la IP: ', error);
+    }
+
+}
+
+function crearSugerencia(sugerencia) {
+    //posicionarnos en el elemento a partir del cual vamos a crear cosas
+    const sugerenciaDelDia = document.getElementById("suggestions");
+    //creando cosas
+    const nuevoH1 = document.createElement("h1");
+    const nuevoH3 = document.createElement("h3");
+    const nuevoH4 = document.createElement("h4");
+    const nuevoH4_1 = document.createElement("h4");
+    const nuevoH4_2 = document.createElement("h4");
+
+    nuevoH3.innerText = `Lugar: ${sugerencia.establishmentEs} Localidad: ${sugerencia.municipalityEs}`;
+    nuevoH4.innerText = `Fecha ${sugerencia.startDate.split("T")[0]}`;
+    nuevoH4_1.innerText = `Hora comienzo: ${sugerencia.openingHoursEs}`;
+    nuevoH4_2.innerText = `Precio: ${sugerencia.priceEs}`;
+    nuevoH1.innerText = sugerencia.nameEs;
+    //limpiamos la anterior busqueda
+    sugerenciaDelDia.innerHTML = "";
+
+    sugerenciaDelDia.appendChild(nuevoH1);
+    sugerenciaDelDia.appendChild(nuevoH3);
+    sugerenciaDelDia.appendChild(nuevoH4);
+    sugerenciaDelDia.appendChild(nuevoH4_1);
+    sugerenciaDelDia.appendChild(nuevoH4_2);
+    const miDiv = document.getElementById('description');
+    miDiv.innerHTML = sugerencia.descriptionEs;
+
+    // Inicializar el mapa
+    const mapa = L.map('map').setView([sugerencia.municipalityLatitude, sugerencia.municipalityLongitude], 15); // El valor 8 es el nivel de zoom inicial
+
+    // Agregar una capa de mapa de OpenStreetMap al mapa
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mapa);
+
+    // Puedes agregar marcadores u otras capas al mapa si lo deseas
+    // Ejemplo de marcador en una ubicación específica
+    const marcador = L.marker([sugerencia.municipalityLatitude, sugerencia.municipalityLongitude]).addTo(mapa);
+    marcador.bindPopup(sugerencia.municipalityEs).openPopup();
+}
+function crearBusqueda(datosFiltrados) {
+    const contenedorElementos = document.getElementById("content");
+    
+
+    // Limpiamos el contenido anterior antes de empezar a agregar nuevos elementos
+    contenedorElementos.innerHTML = "";
+
+    datosFiltrados.forEach(dato => {
+        // Crear elementos para cada iteración
+        const nuevoH1 = document.createElement("h1");
+        const nuevaImagen = document.createElement("img");
+        const nuevoH3 = document.createElement("h3");
+        const nuevoH4 = document.createElement("h4");
+        const nuevoH4_1 = document.createElement("h4");
+        const nuevoH4_2 = document.createElement("h4");
+
+        
+       // Establecer el contenido de los elementos si no son undefined
+       nuevoH1.innerText = dato.nameEs;
+       if (dato.establishmentEs !== undefined) {
+           nuevoH3.innerText = `Lugar: ${dato.establishmentEs}`;
+       }
+       if (dato.municipalityEs !== undefined) {
+           nuevoH3.innerText += ` Localidad: ${dato.municipalityEs}`;
+       }
+       if (dato.startDate !== undefined) {
+           nuevoH4.innerText = `Fecha: ${dato.startDate}`;
+       }
+       if (dato.openingHoursEs !== undefined) {
+           nuevoH4_1.innerText = `Hora comienzo: ${dato.openingHoursEs}`;
+       }
+       if (dato.priceEs !== undefined) {
+           nuevoH4_2.innerText = `Precio: ${dato.priceEs}`;
+       }
+       if (dato.images !== undefined && dato.images.length > 0 && dato.images[0].imageUrl !== undefined) {
+           nuevaImagen.src = dato.images[0].imageUrl;
+           nuevaImagen.classList.add("tipo-imagen");
+       }
+
+        // Adjuntar elementos al contenedor en cada iteración
+        contenedorElementos.appendChild(nuevoH1);
+        contenedorElementos.appendChild(nuevoH3);
+        contenedorElementos.appendChild(nuevoH4);
+        contenedorElementos.appendChild(nuevoH4_1);
+        contenedorElementos.appendChild(nuevoH4_2);
+        contenedorElementos.appendChild(nuevaImagen);
+        
+      
+    });
+}
+//obtenerPueblo()
+const suggest = false;
+window.addEventListener('load', obtenerPueblo, getDataFromStorage(suggest));
+//window.addEventListener('load', getDataFromStorage(suggest));
+
+

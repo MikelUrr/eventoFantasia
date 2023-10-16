@@ -1,0 +1,62 @@
+Guía Explicativa del Código
+Funciones Principales:
+obtenerPueblo()
+
+Descripción: Esta función se encarga de manejar el formulario y los botones en la interfaz de usuario.
+Parámetros: No tiene parámetros.
+Uso: Escucha eventos de formularios y botones para realizar acciones como hacer solicitudes a la API, almacenar datos en el almacenamiento local y manejar eventos de sugerencia.
+getMunicipalityFromApi(pueblo, fecha, suggest)
+
+Descripción: Realiza una solicitud a la API para obtener información sobre un municipio específico.
+Parámetros:
+pueblo: Nombre del municipio a buscar.
+fecha: Fecha específica o "7" para la próxima semana.
+suggest: Un booleano que indica si se debe sugerir un evento aleatorio.
+Uso: Se utiliza para obtener datos detallados de un municipio, incluidos eventos culturales.
+getDataFromApi(puebloid, fecha, suggest)
+
+Descripción: Realiza una solicitud a la API utilizando el ID del municipio para obtener eventos próximos.
+Parámetros:
+puebloid: ID único del municipio.
+fecha: Fecha específica o "7" para la próxima semana.
+suggest: Un booleano que indica si se debe sugerir un evento aleatorio.
+Uso: Se utiliza para obtener datos específicos de eventos en un municipio dado.
+processData(info, fecha, suggest)
+
+Descripción: Filtra los datos de eventos en función de la fecha y decide si sugerir un evento aleatorio.
+Parámetros:
+info: Datos brutos obtenidos de la API.
+fecha: Fecha específica o "7" para la próxima semana.
+suggest: Un booleano que indica si se debe sugerir un evento aleatorio.
+Uso: Filtra los datos de eventos según la fecha y maneja la lógica de sugerir eventos aleatorios.
+Funciones Secundarias:
+almacenarDatos(nombrePueblo, fecha)
+
+Descripción: Almacena los nombres de los pueblos y las fechas de búsqueda en el almacenamiento local del navegador.
+Parámetros:
+nombrePueblo: Nombre del municipio que se buscó.
+fecha: Fecha específica o "7" para la próxima semana.
+Uso: Guarda los datos de búsqueda en el almacenamiento local para futuras referencias.
+borradolocalStorage()
+
+Descripción: Borra todos los datos almacenados en el almacenamiento local del navegador.
+Parámetros: No tiene parámetros.
+Uso: Borra todos los datos almacenados en el almacenamiento local.
+getIp()
+
+Descripción: Obtiene la ubicación basada en la dirección IP del usuario y muestra eventos en esa ubicación.
+Parámetros: No tiene parámetros.
+Uso: Utiliza una API para obtener la ubicación basada en la dirección IP del usuario y muestra eventos en esa ubicación.
+crearSugerencia(sugerencia)
+
+Descripción: Crea y muestra detalles de un evento sugerido en la interfaz de usuario.
+Parámetros:
+sugerencia: Datos del evento sugerido.
+Uso: Crea elementos HTML para mostrar los detalles del evento sugerido y los coloca en la interfaz de usuario.
+crearBusqueda(datosFiltrados)
+
+Descripción: Crea y muestra detalles de eventos filtrados en la interfaz de usuario.
+Parámetros:
+datosFiltrados: Datos de eventos filtrados que se mostrarán.
+Uso: Crea elementos HTML para mostrar los detalles de los eventos filtrados y los coloca en la interfaz de usuario.
+
