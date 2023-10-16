@@ -1,0 +1,128 @@
+
+body {
+    padding: 10%;
+    background-color: rgb(255, 255, 255);
+    color: rgb(5, 5, 5);
+    background-image: url(https://audacyinc.com/wp-content/uploads/2021/11/header-events-page.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+ul {
+    list-style: none;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    font-size: 24px;
+    margin: 20px 0;
+    color: white;
+}
+
+h3 {
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+
+form {
+    max-width: 60vh;
+    margin: 0 auto;
+    background-color: #cc1f59ad;
+    border: 2px solid  rgba(237, 44, 244, 0.592); 
+    padding: 20px;
+    border-radius: 5px;
+    font-family: 'Trebuchet MS';
+    font-weight: bold;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+input:focus {
+    background-color: rgba(246, 246, 111, 0.566);
+
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #fff; 
+    color: #333;
+    box-sizing: border-box;
+}
+
+legend {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+
+button {
+    background-color: rgba(237, 44, 244, 0.592); 
+    color: white; 
+    padding: 10px 20px;
+    border-radius: 5px;
+    border-color: rgba(237, 44, 244, 0.592);
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+
+button:hover {
+    background-color: rgb(157, 12, 197); 
+}
+
+#content {
+    list-style:square;
+    padding: 1;
+}
+
+#content li{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+#content img{
+    max-width: 400px;
+    margin-right: 10px;
+}
+
+#content h3{
+    flex: 1;
+}
+
+#description {                        
+    background-color: #e9e4e495;
+    text-align: center;
+    padding: 1%;
+    border-radius: 3px;
+    color: rgb(38, 6, 6);
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+    margin-top: 5px; 
+}
+
+#suggestions {
+    display: flexbox; 
+    justify-content: center;
+    background-color: #e9e4e495;
+    border-radius: 3px;
+}

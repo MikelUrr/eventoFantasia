@@ -3,37 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Eventos cerca de ti</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-        #map {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
     <link rel="stylesheet" href="style.css">
+    
+    
 </head>
 <body>
     <section>
     <h1>Ingresa el nombre de un pueblo:</h1>
     <form id="puebloForm">
-        <label for="puebloInput">Nombre del Pueblo:</label>
+        <label for="puebloInput">Escribe un lugar:</label>
         <input type="text" id="puebloInput" required>
        <!--  comento la parte del precio hasta revisarlo bien
         <label for="precioMaximoInput">Precio Máximo para el Concierto:</label>
         <input type="number" id="precioMaximoInput" min="0" max="1000" step="10" value="0"> €<br> -->
 
-        <label for="fechaInput">Elige una Fecha:</label>
+        <label for="fechaInput">Selecciona una Fecha:</label>
         <input type="date" id="fechaInput" required><br>
-        <button type="button" id="boton7dias">Proximos 7 dias de eventos</button>
-        <button type="button" id="cercaDeMi">Eventos cerca de mi</button>
+        <button type="button" id="boton7dias">En los próximos 7 días</button>
+        <button type="button" id="cercaDeMi">Eventos cerca de mí</button>
         <button type="submit">Enviar</button>
-        <!-- este boton lo dejo de forma temporal hasta saber como y donde borrar los datos de localstorage -->
-        <button type="button" id="borrarLocalStorage">Borrar LocalStorage</button>
-    </form></section>
-    <section id="suggestions">
-        
+    </form>
     </section>
+    
+    <section id="suggestions">
+    <h3>Sugerencia diaria</h3>    
+    </section>
+
     <div id="description"></div>
         <div id="map"></div>
    
