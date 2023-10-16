@@ -2,28 +2,18 @@
 body {
     padding: 10%;
     background-color: rgb(255, 255, 255);
-    color: rgb(255, 253, 253);
     background-image: url(https://audacyinc.com/wp-content/uploads/2021/11/header-events-page.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }
 
-ul {
-    list-style: none;
-    text-align: center;
-}
 
 h1 {
     text-align: center;
     font-size: 24px;
     margin: 20px 0;
     color: white;
-}
-
-h3 {
-    font-size: 20px;
-    margin: 20px 0;
 }
 
 
@@ -56,18 +46,10 @@ input, select, textarea {
     margin-bottom: 10px;
     border: 1px solid #cccccc;
     border-radius: 5px;
-    background-color: #fff; 
+    background-color: #ffffff33; 
     color: #333;
     box-sizing: border-box;
 }
-
-legend {
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-bottom: 20px;
-}
-
 
 button {
     background-color: rgba(237, 44, 244, 0.592); 
@@ -86,24 +68,33 @@ button:hover {
 }
 
 #content {
-    list-style:square;
-    padding: 1;
+    display: grid;
+    justify-items: center;
+    display: flexbox; 
+    background-color: #e9e4e495;
+    border-radius: 3px;
 }
 
-#content li{
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+#content > div {
+    border: 1px solid white;
     padding: 10px;
+    
 }
 
 #content img{
-    max-width: 400px;
-    margin-right: 10px;
+    width: 300px;
+    height: auto;
 }
 
-#content h3{
-    flex: 1;
+#content h1{
+    color: rgba(252, 252, 252, 0.699);
+    font-family: 'Trebuchet MS';
+    font-weight: bold;
+}
+
+#content h3, h4 {
+    text-align: justify;
+    font-family: 'Trebuchet MS';
 }
 
 #description {                        
@@ -125,4 +116,11 @@ button:hover {
     justify-content: center;
     background-color: #e9e4e495;
     border-radius: 3px;
+}
+
+#sugerencia {
+    padding: 10px;
+    margin-left: 5px;
+    text-align: justify;
+    font-family: 'Trebuchet MS';
 }
