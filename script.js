@@ -283,33 +283,48 @@ async function getIp() {
 }
 
 function crearSugerencia(sugerencia) {
-    //posicionarnos en el elemento a partir del cual vamos a crear cosas
+    // Obtener el contenedor de sugerencias
     const sugerenciaDelDia = document.getElementById("suggestions");
-    //creando cosas
-    const nuevoH1 = document.createElement("h1");
-    const nuevoH3 = document.createElement("h3");
-    const nuevoH4 = document.createElement("h4");
-    const nuevoH4_1 = document.createElement("h4");
-    const nuevoH4_2 = document.createElement("h4");
 
-    nuevoH3.innerText = `Lugar: ${sugerencia.establishmentEs} Localidad: ${sugerencia.municipalityEs}`;
-    nuevoH4.innerText = `Fecha ${sugerencia.startDate.split("T")[0]}`;
-    nuevoH4_1.innerText = `Hora comienzo: ${sugerencia.openingHoursEs}`;
-    nuevoH4_2.innerText = `Precio: ${sugerencia.priceEs}`;
-    nuevoH1.innerText = sugerencia.nameEs;
-    //limpiamos la anterior busqueda
+    // Limpiar el contenido anterior antes de agregar nuevos elementos
     sugerenciaDelDia.innerHTML = "";
 
-    sugerenciaDelDia.appendChild(nuevoH1);
-    sugerenciaDelDia.appendChild(nuevoH3);
-    sugerenciaDelDia.appendChild(nuevoH4);
-    sugerenciaDelDia.appendChild(nuevoH4_1);
-    sugerenciaDelDia.appendChild(nuevoH4_2);
-    const miDiv = document.getElementById('description');
-    miDiv.innerHTML = sugerencia.descriptionEs;
+    // Crear un contenedor para la sugerencia
+    const contenedorSugerencia = document.createElement("div");
+    contenedorSugerencia.classList.add("sugerencia");
+
+    // Crear elementos para los datos de la sugerencia
+    const titulo = document.createElement("h2");
+    titulo.innerText = sugerencia.nameEs;
+
+    const ubicacion = document.createElement("p");
+    ubicacion.innerHTML = `Lugar: ${sugerencia.establishmentEs} - Localidad: ${sugerencia.municipalityEs}`;
+
+    const fecha = document.createElement("p");
+    fecha.innerText = `Fecha: ${sugerencia.startDate.split("T")[0]}`;
+
+    const horaComienzo = document.createElement("p");
+    horaComienzo.innerText = `Hora comienzo: ${sugerencia.openingHoursEs}`;
+
+    const precio = document.createElement("p");
+    precio.innerText = `Precio: ${sugerencia.priceEs}`;
+
+    // Adjuntar elementos al contenedor de sugerencia
+    contenedorSugerencia.appendChild(titulo);
+    contenedorSugerencia.appendChild(ubicacion);
+    contenedorSugerencia.appendChild(fecha);
+    contenedorSugerencia.appendChild(horaComienzo);
+    contenedorSugerencia.appendChild(precio);
+
+    // Adjuntar el contenedor de sugerencia al contenedor principal
+    sugerenciaDelDia.appendChild(contenedorSugerencia);
+
+    // Acceder al elemento de descripción y establecer su contenido
+    const descripcion = document.getElementById('description');
+    descripcion.innerHTML = sugerencia.descriptionEs;
 
     // Inicializar el mapa
-    const mapa = L.map('map').setView([sugerencia.municipalityLatitude, sugerencia.municipalityLongitude], 15); // El valor 8 es el nivel de zoom inicial
+    const mapa = L.map('map').setView([sugerencia.municipalityLatitude, sugerencia.municipalityLongitude], 15);
 
     // Agregar una capa de mapa de OpenStreetMap al mapa
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -321,6 +336,8 @@ function crearSugerencia(sugerencia) {
     const marcador = L.marker([sugerencia.municipalityLatitude, sugerencia.municipalityLongitude]).addTo(mapa);
     marcador.bindPopup(sugerencia.municipalityEs).openPopup();
 }
+
+
 function crearBusqueda(datosFiltrados) {
     const contenedorElementos = document.getElementById("content");
     
