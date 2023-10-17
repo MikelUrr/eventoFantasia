@@ -301,7 +301,8 @@ function crearBusqueda(datosFiltrados) {
     datosFiltrados.forEach(dato => {
         // Crear elementos para cada iteración
         const article = document.createElement("article");
-        article.classList.add("tipo-articulo");
+        article.classList.add("article");
+
         const nuevoH1 = document.createElement("h1");
         const nuevaImagen = document.createElement("img");
         const nuevoH3 = document.createElement("h3");
@@ -346,17 +347,17 @@ function crearBusqueda(datosFiltrados) {
 
 
         // Adjuntar elementos al contenedor en cada iteración
-        contenedorElementos.appendChild(nuevoH1);
-        contenedorElementos.appendChild(nuevoH3);
-        contenedorElementos.appendChild(nuevoH4);
-        contenedorElementos.appendChild(nuevoH4_1);
-        contenedorElementos.appendChild(nuevoH4_2);
-        contenedorElementos.appendChild(nuevaImagen);
-        contenedorElementos.appendChild(botonInfo);
-        contenedorElementos.appendChild(botonCompra);      
-    });
+        article.appendChild(nuevoH1);
+        article.appendChild(nuevoH3);
+        article.appendChild(nuevoH4);
+        article.appendChild(nuevoH4_1);
+        article.appendChild(nuevoH4_2);
+        article.appendChild(nuevaImagen);
+        article.appendChild(botonInfo);
+        article.appendChild(botonCompra);
 
-    contenedorElementos.appendChild(article);
+        contenedorElementos.appendChild(article);  
+    });
 }
 //obtenerPueblo()
 const suggest = false;
