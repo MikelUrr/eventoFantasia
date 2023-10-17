@@ -49,6 +49,7 @@ input, select, textarea {
     border: 1px solid #cccccc;
     border-radius: 5px;
     background-color: #ffffff33; 
+    background-color: #ffffff33; 
     color: #333;
     box-sizing: border-box;
 }
@@ -79,7 +80,17 @@ button:hover {
 
 #content > div {
     border: 1px solid white;
+    display: grid;
+    justify-items: center;
+    display: flexbox; 
+    background-color: #e9e4e495;
+    border-radius: 3px;
+}
+
+#content > div {
+    border: 1px solid white;
     padding: 10px;
+    
     
 }
 
