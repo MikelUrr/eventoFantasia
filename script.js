@@ -16,7 +16,7 @@ function obtenerPueblo() {
         //const precioMaximo = precioMaximoInput.value;
         const fecha = fechaInput.value;
         // Mostramos un mensaje con el nombre del pueblo almacenado
-        alert('Nombre del pueblo almacenado: ' + nombrePueblo);
+        //alert('Nombre del pueblo almacenado: ' + nombrePueblo);
         // Llamamos a la función getMunicipalityFromApi y pasamos nombrePueblo como argumento
         //getMunicipalityFromApi(nombrePueblo, precioMaximo, fecha);
         getMunicipalityFromApi(nombrePueblo, fecha, suggest);
@@ -27,7 +27,7 @@ function obtenerPueblo() {
         event.preventDefault();
         const fecha = "7"
         if (puebloInput.value.trim() === '') {
-            alert('Por favor, ingrese un nombre de pueblo.');
+            //alert('Por favor, ingrese un nombre de pueblo.');
             return; 
         }
         const nombrePueblo = puebloInput.value;
@@ -190,7 +190,7 @@ async function getIp() {
 
         if (datos.status === 'success') {
             const fecha = "7";
-            alert('Estás en: ' + ciudad);
+           // alert('Estás en: ' + ciudad);
             almacenarDatos(ciudad, fecha);
             getMunicipalityFromApi(ciudad, fecha, suggest)
 
@@ -223,7 +223,7 @@ function crearSugerencia(sugerencia) {
     botonInfo.innerText = "+ Info";
     botonInfo.addEventListener('click', function (event) {
         event.preventDefault();
-        window.location.href = sugerencia.sourceUrlEs;
+        window.open(sugerencia.sourceUrlEs, '_blank');
     });
     botonCompra.innerText = "Comprar";
     botonCompra.addEventListener('click', function (event) {
@@ -248,6 +248,8 @@ function crearSugerencia(sugerencia) {
     ubicacion.innerHTML = `Lugar: ${sugerencia.establishmentEs} - Localidad: ${sugerencia.municipalityEs}`;
 
     const fecha = document.createElement("p");
+    const variable= sugerencia.startDate.split("T")[0]
+    
     fecha.innerText = `Fecha: ${sugerencia.startDate.split("T")[0]}`;
 
     const horaComienzo = document.createElement("p");
@@ -271,7 +273,10 @@ function crearSugerencia(sugerencia) {
 
     // Acceder al elemento de descripción y establecer su contenido
     const descripcion = document.getElementById('description');
-    descripcion.innerHTML = sugerencia.descriptionEs;
+    if(sugerencia.descriptionEs!== undefined){
+        descripcion.innerHTML = sugerencia.descriptionEs;
+    }
+    
 
     // Inicializar el mapa
     const mapa = L.map('map').setView([sugerencia.municipalityLatitude, sugerencia.municipalityLongitude], 15);
@@ -319,7 +324,7 @@ function crearBusqueda(datosFiltrados) {
            nuevoH3.innerText += ` Localidad: ${dato.municipalityEs}`;
        }
        if (dato.startDate !== undefined) {
-           nuevoH4.innerText = `Fecha: ${dato.startDate}`;
+            nuevoH4.innerText = `Fecha: ${dato.startDate.split("T")[0].split("-").reverse().join("-")}`;
        }
        if (dato.openingHoursEs !== undefined) {
            nuevoH4_1.innerText = `Hora comienzo: ${dato.openingHoursEs}`;
