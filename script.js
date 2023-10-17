@@ -271,7 +271,10 @@ function crearSugerencia(sugerencia) {
 
     // Acceder al elemento de descripción y establecer su contenido
     const descripcion = document.getElementById('description');
-    descripcion.innerHTML = sugerencia.descriptionEs;
+    if(sugerencia.descriptionEs!== undefined){
+        descripcion.innerHTML = sugerencia.descriptionEs;
+    }
+    
 
     // Inicializar el mapa
     const mapa = L.map('map').setView([sugerencia.municipalityLatitude, sugerencia.municipalityLongitude], 15);
