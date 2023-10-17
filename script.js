@@ -223,12 +223,13 @@ function crearSugerencia(sugerencia) {
     botonInfo.innerText = "+ Info";
     botonInfo.addEventListener('click', function (event) {
         event.preventDefault();
-        crearInfo(sugerencia);
+        window.location.href = sugerencia.sourceUrlEs;
     });
     botonCompra.innerText = "Comprar";
-    botonInfo.addEventListener('click', function (event) {
+    botonCompra.addEventListener('click', function (event) {
         event.preventDefault();
-        crearInfo(sugerencia);
+        window.location.href = sugerencia.purchaseUrlEu;
+
     });
     //limpiamos la anterior busqueda
 
@@ -330,8 +331,15 @@ function crearBusqueda(datosFiltrados) {
            nuevaImagen.classList.add("tipo-imagen");
        }
 
-        botonInfo.innerText = "+ Info";
-        botonCompra.innerText = "Comprar";
+        botonInfo.innerText = "+ Info"; botonInfo.addEventListener('click', function (event) {
+            event.preventDefault();
+            window.location.href = dato.sourceUrlEs;
+        });
+        botonCompra.innerText = "Comprar";botonCompra.addEventListener('click', function (event) {
+            event.preventDefault();
+            window.location.href = dato.purchaseUrlEs;            ;
+    
+        });
 
 
         // Adjuntar elementos al contenedor en cada iteración
