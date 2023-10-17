@@ -1,3 +1,6 @@
+html {
+    font-family: 'Trebuchet MS';
+}
 
 body {
     padding: 10%;
@@ -24,7 +27,6 @@ form {
     border: 2px solid  rgba(237, 44, 244, 0.592); 
     padding: 20px;
     border-radius: 5px;
-    font-family: 'Trebuchet MS';
     font-weight: bold;
 }
 
@@ -46,6 +48,7 @@ input, select, textarea {
     margin-bottom: 10px;
     border: 1px solid #cccccc;
     border-radius: 5px;
+    background-color: #ffffff33; 
     background-color: #ffffff33; 
     color: #333;
     box-sizing: border-box;
@@ -77,32 +80,32 @@ button:hover {
 
 #content > div {
     border: 1px solid white;
+    display: grid;
+    justify-items: center;
+    display: flexbox; 
+    background-color: #e9e4e495;
+    border-radius: 3px;
+}
+
+#content > div {
+    border: 1px solid white;
     padding: 10px;
+    
     
 }
 
 #content img{
-    width: 300px;
+    width: 400px;
     height: auto;
 }
 
 #content h1{
     color: rgba(252, 252, 252, 0.699);
-    font-family: 'Trebuchet MS';
     font-weight: bold;
 }
 
 #content h3, h4 {
     text-align: justify;
-    font-family: 'Trebuchet MS';
-}
-
-#description {                        
-    background-color: #e9e4e495;
-    text-align: center;
-    padding: 1%;
-    border-radius: 3px;
-    color: rgb(38, 6, 6);
 }
 
 #map {
@@ -111,16 +114,16 @@ button:hover {
     margin-top: 5px; 
 }
 
-#suggestions {
+#suggestions, #description {
     display: flexbox; 
     justify-content: center;
     background-color: #e9e4e495;
     border-radius: 3px;
+    border: 2px solid  rgba(237, 44, 244, 0.592);
+    padding: 10px;
+    text-align: justify; 
+    color: rgb(38, 6, 6);
+    margin-top: 8px;
 }
 
-#sugerencia {
-    padding: 10px;
-    margin-left: 5px;
-    text-align: justify;
-    font-family: 'Trebuchet MS';
-}
+
