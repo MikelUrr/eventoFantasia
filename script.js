@@ -223,12 +223,12 @@ function crearSugerencia(sugerencia) {
     botonInfo.innerText = "+ Info";
     botonInfo.addEventListener('click', function (event) {
         event.preventDefault();
-        window.location.href = sugerencia.sourceUrlEs;
+        window.location.href = sugerencia.sourceUrlEs, '_blank';
     });
     botonCompra.innerText = "Comprar";
     botonCompra.addEventListener('click', function (event) {
         event.preventDefault();
-        window.location.href = sugerencia.purchaseUrlEu;
+        window.open(sugerencia.purchaseUrlEs, '_blank')
 
     });
     //limpiamos la anterior busqueda
@@ -322,7 +322,7 @@ function crearBusqueda(datosFiltrados) {
            nuevoH3.innerText += ` Localidad: ${dato.municipalityEs}`;
        }
        if (dato.startDate !== undefined) {
-           nuevoH4.innerText = `Fecha: ${dato.startDate}`;
+            nuevoH4.innerText = `Fecha: ${dato.startDate.split("T")[0].split("-").reverse().join("-")}`;
        }
        if (dato.openingHoursEs !== undefined) {
            nuevoH4_1.innerText = `Hora comienzo: ${dato.openingHoursEs}`;
@@ -337,11 +337,11 @@ function crearBusqueda(datosFiltrados) {
 
         botonInfo.innerText = "+ Info"; botonInfo.addEventListener('click', function (event) {
             event.preventDefault();
-            window.location.href = dato.sourceUrlEs;
+            window.location.href = dato.sourceUrlEs, '_blank';
         });
         botonCompra.innerText = "Comprar";botonCompra.addEventListener('click', function (event) {
             event.preventDefault();
-            window.location.href = dato.purchaseUrlEs;            ;
+            window.location.href = dato.purchaseUrlEs, '_blank';            ;
     
         });
 
