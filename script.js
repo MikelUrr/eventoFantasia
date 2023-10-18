@@ -228,7 +228,7 @@ function crearSugerencia(sugerencia) {
     botonCompra.innerText = "Comprar";
     botonCompra.addEventListener('click', function (event) {
         event.preventDefault();
-        window.location.href = sugerencia.purchaseUrlEu;
+        window.open(sugerencia.purchaseUrlEs, '_blank');
 
     });
     //limpiamos la anterior busqueda
@@ -250,7 +250,7 @@ function crearSugerencia(sugerencia) {
     const fecha = document.createElement("p");
     const variable= sugerencia.startDate.split("T")[0]
     
-    fecha.innerText = `Fecha: ${sugerencia.startDate.split("T")[0]}`;
+    fecha.innerText = `Fecha: ${sugerencia.startDate.split("T")[0].split("-").reverse().join("-")}`;
 
     const horaComienzo = document.createElement("p");
     horaComienzo.innerText = `Hora comienzo: ${sugerencia.openingHoursEs}`;
@@ -339,11 +339,11 @@ function crearBusqueda(datosFiltrados) {
 
         botonInfo.innerText = "+ Info"; botonInfo.addEventListener('click', function (event) {
             event.preventDefault();
-            window.location.href = dato.sourceUrlEs;
+            window.open(dato.sourceUrlEs, '_blank');
         });
         botonCompra.innerText = "Comprar";botonCompra.addEventListener('click', function (event) {
             event.preventDefault();
-            window.location.href = dato.purchaseUrlEs;            ;
+            window.open(dato.purchaseUrlEs, '_blank');            
     
         });
 
