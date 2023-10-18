@@ -1,62 +1,46 @@
-Guía Explicativa del Código
-Funciones Principales:
-obtenerPueblo()
+Esta guía proporciona una explicación detallada del código fuente de "Eventos cerca de ti", una aplicación web que te permite encontrar eventos locales en Euskadi, España. A continuación, se describen los principales componentes y funciones del código para ayudarte a comprender cómo funciona la aplicación.
 
-Descripción: Esta función se encarga de manejar el formulario y los botones en la interfaz de usuario.
-Parámetros: No tiene parámetros.
-Uso: Escucha eventos de formularios y botones para realizar acciones como hacer solicitudes a la API, almacenar datos en el almacenamiento local y manejar eventos de sugerencia.
-getMunicipalityFromApi(pueblo, fecha, suggest)
+1. Estructura del Proyecto
+El código está dividido en tres secciones principales: HTML, CSS, y JavaScript.
 
-Descripción: Realiza una solicitud a la API para obtener información sobre un municipio específico.
-Parámetros:
-pueblo: Nombre del municipio a buscar.
-fecha: Fecha específica o "7" para la próxima semana.
-suggest: Un booleano que indica si se debe sugerir un evento aleatorio.
-Uso: Se utiliza para obtener datos detallados de un municipio, incluidos eventos culturales.
-getDataFromApi(puebloid, fecha, suggest)
+1.1 HTML (index.html)
+El archivo index.html define la estructura de la página web y contiene los elementos HTML necesarios para la interfaz de usuario. Aquí encontrarás los formularios de búsqueda, secciones para mostrar resultados y detalles del evento, y contenedores para el mapa y sugerencias diarias.
 
-Descripción: Realiza una solicitud a la API utilizando el ID del municipio para obtener eventos próximos.
-Parámetros:
-puebloid: ID único del municipio.
-fecha: Fecha específica o "7" para la próxima semana.
-suggest: Un booleano que indica si se debe sugerir un evento aleatorio.
-Uso: Se utiliza para obtener datos específicos de eventos en un municipio dado.
-processData(info, fecha, suggest)
+1.2 CSS (style.css)
+El archivo style.css contiene reglas de estilo para dar formato y diseño a la interfaz de usuario. Define el diseño, colores, y comportamientos interactivos de la página.
 
-Descripción: Filtra los datos de eventos en función de la fecha y decide si sugerir un evento aleatorio.
-Parámetros:
-info: Datos brutos obtenidos de la API.
-fecha: Fecha específica o "7" para la próxima semana.
-suggest: Un booleano que indica si se debe sugerir un evento aleatorio.
-Uso: Filtra los datos de eventos según la fecha y maneja la lógica de sugerir eventos aleatorios.
-Funciones Secundarias:
-almacenarDatos(nombrePueblo, fecha)
+1.3 JavaScript (script.js)
+El archivo script.js contiene la lógica de programación de la aplicación. Maneja las interacciones del usuario, realiza solicitudes a la API de eventos, procesa los datos recibidos y actualiza la interfaz de usuario dinámicamente.
 
-Descripción: Almacena los nombres de los pueblos y las fechas de búsqueda en el almacenamiento local del navegador.
-Parámetros:
-nombrePueblo: Nombre del municipio que se buscó.
-fecha: Fecha específica o "7" para la próxima semana.
-Uso: Guarda los datos de búsqueda en el almacenamiento local para futuras referencias.
-borradolocalStorage()
+2. Funciones Principales
+A continuación, se describen las funciones clave en el archivo script.js:
 
-Descripción: Borra todos los datos almacenados en el almacenamiento local del navegador.
-Parámetros: No tiene parámetros.
-Uso: Borra todos los datos almacenados en el almacenamiento local.
-getIp()
+2.1 obtenerPueblo()
+Esta función se activa cuando el usuario envía el formulario de búsqueda. Obtiene el nombre del pueblo y la fecha del formulario y llama a getMunicipalityFromApi() para buscar eventos en ese pueblo y fecha.
 
-Descripción: Obtiene la ubicación basada en la dirección IP del usuario y muestra eventos en esa ubicación.
-Parámetros: No tiene parámetros.
-Uso: Utiliza una API para obtener la ubicación basada en la dirección IP del usuario y muestra eventos en esa ubicación.
-crearSugerencia(sugerencia)
+2.2 getMunicipalityFromApi(pueblo, fecha, suggest)
+Esta función hace una solicitud a la API de Euskadi para obtener información sobre el pueblo proporcionado. Si suggest está activado, busca eventos sugeridos para los próximos 7 días. Luego, llama a getDataFromApi() para obtener detalles de eventos en ese pueblo y fecha.
 
-Descripción: Crea y muestra detalles de un evento sugerido en la interfaz de usuario.
-Parámetros:
-sugerencia: Datos del evento sugerido.
-Uso: Crea elementos HTML para mostrar los detalles del evento sugerido y los coloca en la interfaz de usuario.
-crearBusqueda(datosFiltrados)
+2.3 getDataFromApi(puebloid, fecha, suggest)
+Realiza una solicitud a la API de eventos para obtener eventos en un pueblo específico (puebloid) en una fecha dada (fecha). Filtra los resultados y llama a processData() para manejar los datos.
 
-Descripción: Crea y muestra detalles de eventos filtrados en la interfaz de usuario.
-Parámetros:
-datosFiltrados: Datos de eventos filtrados que se mostrarán.
-Uso: Crea elementos HTML para mostrar los detalles de los eventos filtrados y los coloca en la interfaz de usuario.
+2.4 processData(info, fecha, suggest)
+Filtra y procesa los datos de eventos obtenidos de la API. Si suggest está activado, muestra un evento sugerido para los próximos 7 días. Si no, muestra los eventos encontrados para la fecha específica.
 
+2.5 almacenarDatos(nombrePueblo, fecha)
+Almacena el nombre del pueblo y la fecha de búsqueda en el localStorage del navegador para futuras referencias.
+
+2.6 getDataFromStorage(suggest)
+Recupera datos almacenados en el localStorage. Si hay datos, determina los nombres y fechas más comunes y busca eventos basados en esas preferencias.
+
+2.7 getIp()
+Obtiene la ubicación actual del usuario basada en su dirección IP. Luego, busca eventos en ese lugar para los próximos 7 días.
+
+2.8 crearSugerencia(sugerencia) y crearBusqueda(datosFiltrados)
+Estas funciones crean la interfaz de usuario para mostrar eventos sugeridos y eventos encontrados respectivamente. Actualizan la sección de sugerencias y resultados con información detallada sobre los eventos.
+
+3. Interacción con el Usuario
+Búsqueda por Pueblo y Fecha: Los usuarios pueden ingresar el nombre de un pueblo y seleccionar una fecha para buscar eventos específicos.
+Botones "En los próximos 7 días" y "Eventos cerca de mí": Estos botones permiten a los usuarios buscar eventos para los próximos 7 días o encontrar eventos cercanos a su ubicación actual respectivamente.
+Botones "+ Info" y "Comprar": Estos botones permiten a los usuarios obtener más información sobre un evento y comprar boletos directamente desde la aplicación.
+Esta guía proporciona una visión general del código y las funcionalidades de "Eventos cerca de ti". ¡Esperamos que esta información te ayude a entender cómo funciona esta aplicación web y a disfrutar explorando eventos locales en Euskadi!
