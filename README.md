@@ -1,4 +1,4 @@
-Este proyecto web te permite encontrar eventos locales en Euskadi, España. Simplemente ingresa el nombre de un pueblo y la fecha del evento que te interesa, y el sistema te mostrará eventos próximos en la ubicación especificada. También puedes descubrir eventos sugeridos para los próximos 7 días o encontrar eventos cercanos a tu ubicación actual.
+Este proyecto web te permite encontrar eventos locales en Euskadi. Simplemente ingresa el nombre de un pueblo y la fecha del evento que te interesa, y el sistema te mostrará eventos próximos en la ubicación especificada. También puedes descubrir eventos sugeridos para los próximos 7 días o encontrar eventos cercanos a tu ubicación actual.
 
 Cómo usar el proyecto
 Ingresa el nombre de un pueblo: En el formulario principal, escribe el nombre del pueblo donde deseas encontrar eventos.
